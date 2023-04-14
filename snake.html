@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+  <style>
+    body{
+      background-color: black;
+      display: flex;
+      height: 800px;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      flex-direction: column;
+    }
+    .container{
+      width: 645px;
+      height: 645px;
+      background-color: rgb(223, 205, 178);
+      border: 5px solid blue;
+      display: grid;
+    }
+    .snake{
+      background-color: green;
+      width: 100%;
+      height: 100%;
+      grid-row-start: 22;
+      grid-column-start: 23;
+      border-radius: 50%;
+    }
+    .snake-body {
+      background-color: green;
+      width: 100%;
+      height: 100%;
+      grid-row-start: 22;
+      grid-column-start: 22;
+      border-radius: 50%;
+    }
+    .food{
+      background-color: red;
+      width: 100%;
+      height: 100%;
+      grid-row-start: 5;
+      grid-column-start: 10;
+      border-radius: 50%;
+
+    }
+    button{
+      font-weight: bold;
+      margin: 10px;
+    }
+  </style>
+
+
+</head>
+<body>
+  <div class="score">
+    <h1>your score is : <span class="num">--</span></h1>
+  </div>
+  <div class="container">
+    <div class="snake"></div>
+    <div class="snake"></div>
+    <div class="snake"></div>
+    <div class="snake"></div>
+    
+    <div class="food"></div>
+  </div> 
+  <div class="btns">
+    <button><</button>
+    <button>></button>
+  </div>
+  </body>
+  <script src="snake.js">
+  </script>
+</html>
