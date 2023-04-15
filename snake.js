@@ -1,4 +1,4 @@
-let snake = document.querySelectorAll(".snake"),
+let gameOver = false,snake = document.querySelectorAll(".snake"),
 score = document.querySelector(".num"),s = 0,
 board = document.querySelector(".container"), food = document.querySelector(".food"),foodC,foodR,arrow = "Right",
 a1 = {
@@ -16,9 +16,13 @@ a3 = {
 a4 = {
     x: 10,
     y: 11
-};
+},
 snakeArr = [a1,a2,a3,a4],
-d = 22;
+d = 23,
+btn = document.querySelector("button");
+btn.onclick = () => {
+    window.location.reload();
+}
 
 board.style = `
 width: ${d*15}px;
@@ -38,10 +42,6 @@ window.addEventListener("load", () => {
     foodMaker();
 });
 
-document.onkeydown= (e) => {
-    checkKey(e);
-}
-
 
 //generate the food 
 function foodMaker () {
@@ -51,12 +51,19 @@ function foodMaker () {
     food.style.gridRowStart = foodR;
     
     console.log(foodC +" "+ foodR);
+
+    //check the place of food to not be under the snake
+    for(let i = 0; i < snakeArr.length; i++){
+        if(snakeArr[i].x === foodC && snakeArr[i].y === foodR){
+            foodMaker();
+        }
+    }
 }
 
 //to move the snake
-function snakeWalk(e) {
-    setTimeout('snakeWalk()', 100);
-
+var counter;
+function snakeWalk() {
+    counter = setTimeout('snakeWalk()', 100);
     switch(arrow){
         case'Right':
         snakeArr[0].x = snakeArr[snakeArr.length-1].x+1;
@@ -88,10 +95,10 @@ function snakeWalk(e) {
         break;
     }
 
+    //game over
     for(let i = 1; i < snakeArr.length; i++){
         if(snakeArr[0].x === snakeArr[i].x && snakeArr[0].y === snakeArr[i].y){
-            console.log("erorr");
-            document.body.innerHTML = "<h1>Game Over</h1>";
+            LoseGame();
         }
     }
 
@@ -130,10 +137,22 @@ function snakeWalk(e) {
         score.innerHTML = `${s}`;
         foodMaker();
         }
+
+        // snake color
+        for(let i = 0; i < snake.length; i++){
+                snake[i].style.opacity = `${50+(i*50/snake.length)}%`;
+        }
 }
 
 // read the directions
+document.onkeydown= (e) => {
+    checkKey(e);
+}
+
 function checkKey(e) {
+    if(gameOver === true){
+        return null;
+    }else {
     let key = e.key;
     console.log(key);
     switch(key){
@@ -150,6 +169,7 @@ function checkKey(e) {
                 break;
             }
             arrow = "Up";
+
             break;
         case 'ArrowDown':
             if(arrow === "Up"){
@@ -157,6 +177,7 @@ function checkKey(e) {
                 break;
             }
             arrow = "Down";
+
             break;
         case 'ArrowRight':
             if(arrow === "Left"){
@@ -166,5 +187,14 @@ function checkKey(e) {
             arrow = "Right";
             break;
     }
-    
+    clearTimeout(counter);
+    snakeWalk();
+}
+}
+// game over method 
+function LoseGame() {
+    clearTimeout(counter);
+    gameOver = true;
+    btn.style.display = "block";
+    snake[snake.length-1].style.backgroundColor = "black";
 }
